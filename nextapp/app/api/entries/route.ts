@@ -47,3 +47,52 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Failed to fetch entries' }, { status: 500 });
   }
 }
+
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json();
+
+    const {
+      store_name,
+      store_address = null,
+      store_phone = null,
+      date_of_purchase = null,
+      subtotal = 0,
+      gst = 0,
+      hst = 0,
+      total = 0,
+      total_discounts = 0,
+      payment_method = null,
+      line_items = null,
+      file_name = null,
+      approved = false,
+    } = body;
+
+    const result = await query(
+      `INSERT INTO public.chrisexp (
+        store_name, store_address, store_phone, date_of_purchase, subtotal,
+        gst, hst, total, total_discounts, payment_method, line_items, file_name, approved
+      ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) RETURNING *`,
+      [
+        store_name,
+        store_address,
+        store_phone,
+        date_of_purchase,
+        subtotal,
+        gst,
+        hst,
+        total,
+        total_discounts,
+        payment_method,
+        line_items ? JSON.stringify(line_items) : null,
+        file_name,
+        approved,
+      ]
+    );
+
+    return NextResponse.json(result.rows[0], { status: 201 });
+  } catch (error) {
+    console.error('Error creating entry:', error);
+    return NextResponse.json({ error: 'Failed to create entry' }, { status: 500 });
+  }
+}

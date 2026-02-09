@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import EntryList from '@/components/EntryList';
 import EntryDetail from '@/components/EntryDetail';
 import FilterBar from '@/components/FilterBar';
+import EntryModal from '@/components/EntryModal';
 import type { Entry } from '@/types';
 
 export default function Home() {
@@ -17,6 +18,7 @@ export default function Home() {
     approved: '',
   });
   const [loading, setLoading] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchEntries = async () => {
@@ -66,6 +68,26 @@ export default function Home() {
     await handleSave({ ...selectedEntry, approved: true });
   };
 
+  const handleCreate = () => setModalOpen(true);
+
+  const handleModalSave = async (newEntry: Omit<Entry, 'id' | 'created_at'>) => {
+    try {
+      const res = await fetch('/api/entries', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newEntry),
+      });
+      if (res.ok) {
+        const created = await res.json();
+        setEntries([created, ...entries]);
+        setModalOpen(false);
+        setSelectedEntry(created);
+      }
+    } catch (error) {
+      console.error('Error creating entry:', error);
+    }
+  };
+
   return (
     <main className="h-screen bg-gray-50 flex flex-col">
       <div className="max-w-full mx-auto p-4 flex-shrink-0">
@@ -83,6 +105,7 @@ export default function Home() {
               selectedEntry={selectedEntry}
               onSelect={setSelectedEntry}
               loading={loading}
+              onCreate={handleCreate}
             />
           </div>
 
@@ -98,6 +121,7 @@ export default function Home() {
             </div>
           )}
         </div>
+        <EntryModal open={modalOpen} onClose={() => setModalOpen(false)} onSave={handleModalSave} />
       </div>
     </main>
   );

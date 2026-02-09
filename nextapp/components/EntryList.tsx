@@ -6,6 +6,7 @@ interface EntryListProps {
   selectedEntry: Entry | null;
   onSelect: (entry: Entry) => void;
   loading: boolean;
+  onCreate?: () => void;
 }
 
 const parseLocalDate = (dateString: string): Date => {
@@ -19,6 +20,7 @@ export default function EntryList({
   selectedEntry,
   onSelect,
   loading,
+  onCreate,
 }: EntryListProps) {
   if (loading) {
     return (
@@ -30,8 +32,21 @@ export default function EntryList({
 
   return (
     <div className="bg-white rounded-lg shadow">
-      <div className="p-4 border-b border-gray-200">
+      <div className="p-4 border-b border-gray-200 flex items-center justify-between">
         <h2 className="text-xl font-semibold text-gray-900">Entries ({entries.length})</h2>
+        <div>
+          <button
+            type="button"
+            onClick={() => onCreate?.()}
+            className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-md"
+            aria-label="Create new entry"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
+            </svg>
+            <span>New</span>
+          </button>
+        </div>
       </div>
       <div className="divide-y divide-gray-200 h-[calc(100vh-310px)] overflow-y-auto">
         {entries.length === 0 ? (
