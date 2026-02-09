@@ -119,7 +119,7 @@ export default function LineItemsEditor({ lineItems, onChange }: LineItemsEditor
                   <input
                     type="number"
                     step="0.01"
-                    value={item.discount}
+                    value={item.discount ?? 0}
                     onChange={(e) => handleItemChange(index, 'discount', parseFloat(e.target.value))}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   />
