@@ -6,6 +6,8 @@ const nextConfig: NextConfig = {
       {
         protocol: 'http',
         hostname: 'odroidhc4.lan',
+        port: '9000',
+        pathname: '/**', // Allow all paths under this domain
       },
     ],
   },

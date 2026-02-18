@@ -243,12 +243,12 @@ export default function EntryDetail({
       <div className="lg:col-span-2 bg-white rounded-lg shadow p-6 flex flex-col items-center justify-center sticky top-0 h-[calc(100vh-250px)] overflow-hidden">
         {imageUrl ? (
           <div className="w-full h-full flex items-top justify-center">
-            <Image
+            <img
               src={imageUrl}
               alt="Receipt"
               width={800}
               height={800}
-              unoptimized
+              crossOrigin="anonymous"
               className="max-w-full rounded-lg object-contain"
             />
           </div>
