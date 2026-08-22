@@ -47,7 +47,7 @@ export default function LineItemsEditor({ lineItems, onChange }: LineItemsEditor
               <div className="text-left flex-1">
                 <p className="font-medium text-gray-900">{item.name || 'Unnamed Item'}</p>
                 <p className="text-sm text-gray-600">
-                  Qty: {item.quantity} × ${item.price.toFixed(2)} = ${(item.quantity * item.price).toFixed(2)}
+                  Qty: {item.quantity || 0} × ${(item.price ?? 0).toFixed(2)} = ${((item.quantity ?? 0) * (item.price ?? 0)).toFixed(2)}
                 </p>
               </div>
               <svg
