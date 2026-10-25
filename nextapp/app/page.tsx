@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import EntryList from '@/components/EntryList';
 import EntryDetail from '@/components/EntryDetail';
 import FilterBar from '@/components/FilterBar';
@@ -91,7 +92,15 @@ export default function Home() {
   return (
     <main className="h-screen bg-gray-50 flex flex-col">
       <div className="max-w-full mx-auto p-4 flex-shrink-0">
-        <h1 className="text-3xl font-bold mb-6 text-gray-900">Expense Manager</h1>
+        <div className="flex items-center justify-between mb-6">
+          <h1 className="text-3xl font-bold text-gray-900">Expense Manager</h1>
+          <Link
+            href="/stats"
+            className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 font-medium"
+          >
+            View Statistics
+          </Link>
+        </div>
 
         <FilterBar filters={filters} setFilters={setFilters} />
       </div>
